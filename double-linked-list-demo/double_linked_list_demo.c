@@ -1,7 +1,7 @@
 /****************************************************************************
  * Copyright (C) 2017 by Maduranga Jayasinghe                               *
  *                                                                          *
- *  Double linked list operations demonstration program.                    *
+ *  Double linked list operations demonstration program.                           *
  *                                                                          *
  *   This program is a free software : you can redistribute it and / or     *
  *   modify it under the terms of the GNU Lesser General Public  License    *
@@ -25,7 +25,7 @@
 /**
  * @file    double_linked_list_demo.c
  * @author  Maduranga Jayasinghe
- * @date    2017-01-11
+ * @date    2017.01.11
  * @brief   This is a demonstration of double linked list operations.
  * 
  * In this demo program, I'm going to explain following operations
@@ -39,7 +39,7 @@
  *    7. Find and remove a node from list
  *    8. Remove the last node from the list
  *    9. Remove the first node from the list
- *   10. Display linked list data in reverse order
+ *   10. Display double linked list data in reverse order
  *   11. Clear allocated heap memory before extit
  */
  
@@ -48,6 +48,7 @@
 
 /**
  * @brief Basic node structure
+ * 
  * @internal
  *      History:
  *      2017.01.11      Initialise
@@ -60,6 +61,7 @@ struct node{
 
 /**
  * @brief Initialize list root
+ * 
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -68,7 +70,9 @@ struct node *root = NULL;
 
 /**
  * @brief Print linked list data
+ *
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -97,8 +101,10 @@ void print_list(){
 
 /**
  * @brief Print linked list data in reverse order
+ * 
  * @param   n	Struct pointer of next node
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -118,8 +124,10 @@ void print_list_reverse(struct node * n){
 
 /**
  * @brief Add new node to the end of linked list
+ * 
  * @param   data    New node's data value
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -149,7 +157,9 @@ void add_last(int data){
 
 /**
  * @brief Remove last node from the linked list
+ * 
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -175,8 +185,10 @@ void remove_last(){
 
 /**
  * @brief Add new node to the beginning of the linked list
+ * 
  * @param   data    New node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -198,7 +210,9 @@ void add_begin(int data){
 
 /**
  * @brief Remove the first node of linked list
+ * 
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -211,58 +225,56 @@ void remove_begin(){
     }
     else if(root->next == NULL){
 	data = root->data;
+	free(root);
 	root = NULL;
     }
     else{
 	data = root->data;
-	free(root);
+	struct node *tmp = root;
 	root = root->next;
 	root->prev = NULL;
+	free(tmp);
     }
     printf("Removed first node's data is : %d\n", data);
 }
 
 /**
  * @brief Find the index of node
+ * 
  * @param   data    Search node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
  */
  
-int find_index(int data){
-    int index = 1;
+void find_index(int data){
+    int index = 0;
     struct node *curr = root;
     if(curr == NULL){
-	return -1;
-    }
-    else if(curr->next == NULL){
-	if(curr->data == data){
-	    return index;
-	}
-	return -2;
+	printf("Not found (%d), List is empty\n", data);
+	return;
     }
     else{
-	while(1){
+	while(curr != NULL){
+	    index++;
 	    if(curr->data == data){
-		return index;
-	    }
-	    if(curr->next == NULL){
-		break;
+		printf("Index of the searched node is: %d\n", index);
+		return;
 	    }
 	    curr = curr->next;
-	    index++;
 	}
-	return -2;
+	printf("Not found! ( %d )\n", data);
     }
-	
 }
 
 /**
  * @brief Find and remove a node from linked list
+ * 
  * @param   data    New node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -291,9 +303,11 @@ void find_and_remove(int data){
 
 /**
  * @brief Search a node data and insert new node after
+ * 
  * @param   search_value    Search node's data
  * @param   data    New node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -322,9 +336,11 @@ void insert_after(int search_value, int data){
 
 /**
  * @brief Search a node data and insert new node before the node
+ * 
  * @param   search_value    Search node's data
  * @param   data    New nod'se data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -340,7 +356,6 @@ void insert_before(int search_value, int data){
 	    if(curr->data == search_value){
 		struct node *tmp = (struct node*)malloc(sizeof(struct node));
 		tmp->data = data;
-
 		curr->prev->next = tmp;
 		tmp->prev = curr->prev;
 		curr->prev = tmp;
@@ -355,8 +370,10 @@ void insert_before(int search_value, int data){
 
 /**
  * @brief clear memory allocation and delete all node
+ * 
  * @param   n	Struct pointer of next node
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -373,7 +390,9 @@ void memory_free(struct node * n){
 
 /**
  * @brief Display main menu
+ * 
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -391,14 +410,16 @@ void print_menu(){
     printf(" 7. Find and remove a node from list\n");
     printf(" 8. Remove the last node from the list\n");
     printf(" 9. Remove the first node from the list\n");
-    printf("10. Display linked list data in reverse order\n");
+    printf("10. Display double linked list data in reverse order\n");
     printf("\n");
     printf(" 0. Exit\n");
 }
 
 /**
  * @brief Main entry point to the program
+ * 
  * @return  0:Execution succeeded
+ *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -407,7 +428,6 @@ int main(){
     int menu_selection;		/* selected menu item */
     int search_data;		/* search node's data */
     int data;			/* new node's data */
-    int ret;			/* hold the function return value */
 
     /* menu operation */
     while(1){
@@ -420,7 +440,7 @@ int main(){
 
 	/* Hnadle the menu operation */
 	switch(menu_selection){
-	    case 1: /* Display double linked list data */
+	    case 1: /* Display linked list data */
 		print_list();
 		break;
 	    case 2: /* Add a new node to the end of the list */
@@ -450,16 +470,7 @@ int main(){
 	    case 6: /* Find the index of node */
 		printf("Enter data value of searching node:");
 		scanf("%d", &search_data);
-		ret = find_index(search_data);
-		if(ret == -1){
-		    printf("Not found! (%d), List is empty\n", search_data);
-		}
-		else if(ret == -2){
-		    printf("Not found! (%d)\n", search_data);
-		}
-		else{
-		    printf("Index of the searched node is: %d\n", ret);
-		}
+		find_index(search_data);
 		break;
 	    case 7: /* Find and remove a node from list */
 		printf("Enter data value of searching node:");
@@ -473,9 +484,14 @@ int main(){
 		remove_begin();
 		break;
 	    case 10: /* Display linked list data in reverse order */
-		printf("Reverse linked list >> ");
-		print_list_reverse(root);
-		printf("\n");
+		if(root == NULL){
+		    printf("List is empty\n");
+		}
+		else{
+		    printf("Reverse linked list >> ");
+		    print_list_reverse(root);
+		    printf("\n");
+		}
 		break;
 	    case 0: /* Exit operations  */
 		goto EXIT;
