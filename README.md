@@ -6,6 +6,6 @@ This is the source repository related to data structures tutorials on bitexperim
 
 | POST                                                    | Related source file folder                    |   Post link   |
 |:-------------------------------------------------------:|:---------------------------------------------:|:-------------:|
-| Linked list | data-structures-in-c/ linked-list-demo/ | [Blog Post Ref ](www.technologyweuse.com/category/fundamentals/datastructures "Linked list") |
+| Linked list | data-structures-in-c/ linked-list-demo/ | [Blog Post Ref ](http://www.technologyweuse.com/category/fundamentals/datastructures "Linked list") |
 
 
