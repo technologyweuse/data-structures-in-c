@@ -60,6 +60,7 @@ struct node{
 
 /**
  * @brief Initialize list root
+ * 
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -68,7 +69,9 @@ struct node *root = NULL;
 
 /**
  * @brief Print linked list data
+ *
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -97,8 +100,10 @@ void print_list(){
 
 /**
  * @brief Print linked list data in reverse order
+ * 
  * @param   n	Struct pointer of next node
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -118,6 +123,7 @@ void print_list_reverse(struct node * n){
 
 /**
  * @brief Add new node to the end of linked list
+ * 
  * @param   data    New node's data value
  * @return  void
  *
@@ -148,7 +154,9 @@ void add_last(int data){
 
 /**
  * @brief Remove last node from the linked list
+ * 
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -181,8 +189,10 @@ void remove_last(){
 
 /**
  * @brief Add new node to the beginning of the linked list
+ * 
  * @param   data    New node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -203,7 +213,9 @@ void add_begin(int data){
 
 /**
  * @brief Remove the first node of linked list
+ * 
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -216,192 +228,170 @@ void remove_begin(){
     }
     else if(root->next == NULL){
 	data = root->data;
+	free(root);
 	root = NULL;
     }
     else{
 	data = root->data;
+	struct node *tmp = root;
 	root = root->next;
+	free(tmp);
     }
     printf("Removed first node's data is : %d\n", data);
 }
 
 /**
  * @brief Find the index of node
+ * 
  * @param   data    Search node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
  */
  
-int find_index(int data){
-    int index = 1;
+void find_index(int data){
+    int index = 0;
     struct node *curr = root;
     if(curr == NULL){
-	return -1;
-    }
-    else if(curr->next == NULL){
-	if(curr->data == data){
-	    return index;
-	}
-	return -2;
+	printf("Not found (%d), List is empty\n", data);
+	return;
     }
     else{
-	while(1){
+	while(curr != NULL){
+	    index++;
 	    if(curr->data == data){
-		return index;
-	    }
-	    if(curr->next == NULL){
-		break;
+		printf("Index of the searched node is: %d\n", index);
+		return;
 	    }
 	    curr = curr->next;
-	    index++;
 	}
-	return -2;
+	printf("Not found! ( %d )\n", data);
     }
-	
 }
 
 /**
  * @brief Find and remove a node from linked list
+ * 
  * @param   data    New node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
  */
 void find_and_remove(int data){
-    int index = find_index(data);
-    if(index == -1){
+    int index = 0;
+    struct node *curr = root;
+    if(curr == NULL){
 	printf("Not found (%d), List is empty\n", data);
 	return;
     }
-    else if(index == -2){
-	printf("Not found! ( %d )\n", data);
-	return;
-    }
-    else if(index == 1){
-	if(root->next == NULL){
-	    free(root);
-	    root = NULL;
-	}
-	else{
-	    struct node *found = root;
-	    root = root->next;
-	    free(found);
-	}
-    }
     else{
-	int i = 1;
-	struct node *prv = NULL;
-	struct node *curr = root;
-
-	while(i < index){
-	    prv = curr;
+	struct node *prev = NULL;
+	while(curr != NULL){
+	    index++;
+	    if(curr->data == data){
+		if(prev == NULL){
+		    curr = curr->next;
+		    free(root);
+		    root = curr;
+		}
+		else{
+		    prev->next = curr->next;
+		    free(curr);
+		}
+		printf("Node(Data:%d) at index of %d\n", data, index);
+		return;
+	    }
+	    prev = curr;
 	    curr = curr->next;
-	    i++;
 	}
-	prv->next = curr->next;
-	free(curr);
+	printf("Not found! ( %d )\n", data);
     }
-    printf("Node(Data:%d) at index of %d\n", data, index);
 }
 
 /**
  * @brief Search a node data and insert new node after
+ * 
  * @param   search_value    Search node's data
  * @param   data    New node's data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
  */
 void insert_after(int search_value, int data){
-    int index = find_index(search_value);
-    if(index == -1){
-	printf("Not found (%d), List is empty\n", search_value);
+    struct node *curr = root;
+    if(curr == NULL){
+	printf("Not found (%d), List is empty\n", data);
 	return;
-    }
-    else if(index == -2){
-	printf("Not found! ( %d )\n", search_value);
-	return;
-    }
-    else if(index == 1){
-	struct node *tmp = (struct node*)malloc(sizeof(struct node));
-	tmp->data = data;
-	tmp->next = NULL;
-
-	if(root->next == NULL){
-	    root->next = tmp;
-	}
-	else{
-	    tmp->next = root->next;
-	    root->next = tmp;
-	}
     }
     else{
-	int i = 1;
-	struct node *curr = root;
-	struct node *tmp = (struct node*)malloc(sizeof(struct node));
-	tmp->data = data;
-	tmp->next = NULL;
-
-	while(i < index){
+	while(curr != NULL){
+	    if(curr->data == search_value){
+		struct node *tmp = (struct node*)malloc(sizeof(struct node));
+		tmp->data = data;
+		tmp->next = curr->next;
+		curr->next = tmp;
+		return;
+	    }
 	    curr = curr->next;
-	    i++;
 	}
-	tmp->next = curr->next;
-	curr->next = tmp;
+	printf("Not found! ( %d )\n", data);
     }
 }
 
 /**
  * @brief Search a node data and insert new node before the node
+ * 
  * @param   search_value    Search node's data
  * @param   data    New nod'se data
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
  */
 void insert_before(int search_value, int data){
-    int index = find_index(search_value);
-    if(index == -1){
-	printf("Not found (%d), List is empty\n", search_value);
+    int index = 0;
+    struct node *curr = root;
+    if(curr == NULL){
+	printf("Not found (%d), List is empty\n", data);
 	return;
-    }
-    else if(index == -2){
-	printf("Not found! ( %d )\n", search_value);
-	return;
-    }
-    else if(index == 1){
-	struct node *tmp = (struct node*)malloc(sizeof(struct node));
-	tmp->data = data;
-	tmp->next = root;
-	root = tmp;
     }
     else{
-	int i = 1;
-	struct node *prv = NULL;
-	struct node *curr = root;
-	struct node *tmp = (struct node*)malloc(sizeof(struct node));
-	tmp->data = data;
-	tmp->next = NULL;
-
-	while(i < index){
-	    prv = curr;
+	struct node *prev = NULL;
+	while(curr != NULL){
+	    index++;
+	    if(curr->data == search_value){
+		struct node *tmp = (struct node*)malloc(sizeof(struct node));
+		tmp->data = data;
+		if(prev == NULL){
+		    tmp->next = curr;
+		    root = tmp;
+		}
+		else{
+		    prev->next = tmp;
+		    tmp->next = curr;
+		}
+		return;
+	    }
+	    prev = curr;
 	    curr = curr->next;
-	    i++;
 	}
-	tmp->next = curr;
-	prv->next = tmp;
+	printf("Not found! ( %d )\n", data);
     }
 }
 
 /**
  * @brief clear memory allocation and delete all node
+ * 
  * @param   n	Struct pointer of next node
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -418,7 +408,9 @@ void memory_free(struct node * n){
 
 /**
  * @brief Display main menu
+ * 
  * @return  void
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -443,7 +435,9 @@ void print_menu(){
 
 /**
  * @brief Main entry point to the program
+ * 
  * @return  0:Execution succeeded
+ *
  * @internal
  *      History:
  *      2017.01.10      Initialize
@@ -452,7 +446,6 @@ int main(){
     int menu_selection;		/* selected menu item */
     int search_data;		/* search node's data */
     int data;			/* new node's data */
-    int ret;			/* hold the function return value */
 
     /* menu operation */
     while(1){
@@ -495,16 +488,7 @@ int main(){
 	    case 6: /* Find the index of node */
 		printf("Enter data value of searching node:");
 		scanf("%d", &search_data);
-		ret = find_index(search_data);
-		if(ret == -1){
-		    printf("Not found! (%d), List is empty\n", search_data);
-		}
-		else if(ret == -2){
-		    printf("Not found! (%d)\n", search_data);
-		}
-		else{
-		    printf("Index of the searched node is: %d\n", ret);
-		}
+		find_index(search_data);
 		break;
 	    case 7: /* Find and remove a node from list */
 		printf("Enter data value of searching node:");
@@ -518,9 +502,14 @@ int main(){
 		remove_begin();
 		break;
 	    case 10: /* Display linked list data in reverse order */
-		printf("Reverse linked list >> ");
-		print_list_reverse(root);
-		printf("\n");
+		if(root == NULL){
+		    printf("List is empty\n");
+		}
+		else{
+		    printf("Reverse linked list >> ");
+		    print_list_reverse(root);
+		    printf("\n");
+		}
 		break;
 	    case 0: /* Exit operations  */
 		goto EXIT;
