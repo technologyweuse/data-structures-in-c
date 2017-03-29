@@ -48,7 +48,6 @@
 
 /**
  * @brief Basic node structure
- * 
  * @internal
  *      History:
  *      2017.01.11      Initialise
@@ -61,7 +60,6 @@ struct node{
 
 /**
  * @brief Initialize list root
- * 
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -70,9 +68,7 @@ struct node *root = NULL;
 
 /**
  * @brief Print linked list data
- *
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -101,10 +97,8 @@ void print_list(){
 
 /**
  * @brief Print linked list data in reverse order
- * 
  * @param   n	Struct pointer of next node
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -124,10 +118,8 @@ void print_list_reverse(struct node * n){
 
 /**
  * @brief Add new node to the end of linked list
- * 
  * @param   data    New node's data value
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -157,9 +149,7 @@ void add_last(int data){
 
 /**
  * @brief Remove last node from the linked list
- * 
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -185,10 +175,8 @@ void remove_last(){
 
 /**
  * @brief Add new node to the beginning of the linked list
- * 
  * @param   data    New node's data
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -210,9 +198,7 @@ void add_begin(int data){
 
 /**
  * @brief Remove the first node of linked list
- * 
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -238,10 +224,8 @@ void remove_begin(){
 
 /**
  * @brief Find the index of node
- * 
  * @param   data    Search node's data
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -277,10 +261,8 @@ int find_index(int data){
 
 /**
  * @brief Find and remove a node from linked list
- * 
  * @param   data    New node's data
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -309,11 +291,9 @@ void find_and_remove(int data){
 
 /**
  * @brief Search a node data and insert new node after
- * 
  * @param   search_value    Search node's data
  * @param   data    New node's data
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -342,11 +322,9 @@ void insert_after(int search_value, int data){
 
 /**
  * @brief Search a node data and insert new node before the node
- * 
  * @param   search_value    Search node's data
  * @param   data    New nod'se data
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -377,10 +355,8 @@ void insert_before(int search_value, int data){
 
 /**
  * @brief clear memory allocation and delete all node
- * 
  * @param   n	Struct pointer of next node
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -397,9 +373,7 @@ void memory_free(struct node * n){
 
 /**
  * @brief Display main menu
- * 
  * @return  void
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
@@ -424,9 +398,7 @@ void print_menu(){
 
 /**
  * @brief Main entry point to the program
- * 
  * @return  0:Execution succeeded
- *
  * @internal
  *      History:
  *      2017.01.11      Initialize
